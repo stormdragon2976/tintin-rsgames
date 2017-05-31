@@ -1,46 +1,13 @@
-#ACTION {^+{CHECKLIST|CHOICE} %*}
-{
-	#list {menu} {clear};
-	#variable {text} {%2};
-	#replace {text} {|} {;};
-	#list {menu} {add} {$text};
-	#variable {i} {1};
-	#list {menu} {size} {menuSize};
-	#while {$i <= $menuSize}
-	{
-		#variable {output} {$i: ${menu[$i]}};
-		#replace {output} {playable%*.ogg~} {(playable) };
-		#echo {$output};
-		#if {"%1" == "CHECKLIST"}
-{
-#math {menu[$i]} {$i - 1};
-#variable {menu[$i]} {${menu[$i]},}
-};
-		#math {i} {$i + 1}
-	};
-	#line {gag}
-}
-{9}
-
-#ACTION {^+CONFIG-READ config.ini|uuids$}
-{
-	#cr;
-	#line {gag}
-}
-{9}
-
-#ACTION {^+GAMENAME %1}
-{
-	#variable {game.name} {%1};
-	#system {if [ ! -d "$HOME/sounds/%1" ]; then mkdir -p "$HOME/sounds/%1";fi}
-}
-{9}
-
 #ACTION {^+KEYBIND %1|%2|%3}
 {
 	#line {gag};
 	#switch {"%1"}
 	{
+		#case {"RETURN"}
+		{
+			#echo {(%1) %3};
+			#history {insert} {%2}
+		};
 		#case {"%?"}
 		{
 			#format {output} {%l} {%1};
@@ -61,6 +28,20 @@
 	}
 }
 {1}
+
+#ACTION {^+CONFIG-READ config.ini|uuids$}
+{
+	#cr;
+	#line {gag}
+}
+{9}
+
+#ACTION {^+GAMENAME %1}
+{
+	#variable {game.name} {%1};
+	#system {if [ ! -d "$HOME/sounds/%1" ]; then mkdir -p "$HOME/sounds/%1";fi}
+}
+{9}
 
 #ACTION {^+MSG Please select an option.$}
 {
@@ -86,51 +67,66 @@
 #ACTION {^+SND-PLAY %S.%w$}
 {
 	#line {gag};
-#switch {"%1.%2"}
-{
-#case {"shake.ogg"} {#variable {output} {Shake.ogg}};
-#default {#format {output} {%l} {%1.%2}}
-};
+	#switch {"%1.%2"}
+	{
+		#case {"shake.ogg"}
+		{
+			#variable {output} {Shake.ogg}
+		};
+		#default
+		{
+			#format {output} {%l} {%1.%2}
+		}
+	};
 	#script {if [ ! -f "$HOME/sounds/${game.name}/$output" ]; then sox -q "http://zanosoft.net/zgp/snd-download/${game.name}/$output" "$HOME/sounds/${game.name}/$output";fi};
 	PLAY $output
 }
 {9}
 
-#ALIAS {^{\d+([, ]\d+)*}$}
+#ACTION {^+{CHECKLIST|CHOICE} %*}
 {
-#nop {Set options to blank.};
-#variable {options} {};
-#nop {Store the numbers separated by spaces or comma in $i. Replace , and space with ;};
-#variable {i} {%0};
-#replace {i} {,} {;};
-#replace {i} { } {;};
-#nop {Go through all the options selected by $i};
-#forall {$i}
-{
-#nop {If the selected number is in the menus index, add it to the output string.};	
-#if {&{menu[&0]}}
+	#list {menu} {clear};
+	#variable {text} {%2};
+	#replace {text} {|} {;};
+	#list {menu} {add} {$text};
+	#variable {i} {1};
+	#list {menu} {size} {menuSize};
+	#while {$i <= $menuSize}
 	{
-#nop {Output sent to the game must be in lower case.};		
-#format {output} {%l} {${menu[&0]}};
-#nop {Remove the playable file.ogg from the selection, or the option won't be recognized.};		
-#replace {output} {.*~} {};
-#nop {options contains all the selected numbers to be passed. This could be one option for a menu, or several for a checklist.};		
-#variable {options} {${options}${output}}
+		#variable {output} {$i: ${menu[$i]}};
+		#replace {output} {playable%*.ogg~} {(playable) };
+		#echo {$output};
+		#if {"%1" == "CHECKLIST"}
+		{
+			#math {menu[$i]} {$i - 1};
+			#variable {menu[$i]} {${menu[$i]},}
+		};
+		#math {i} {$i + 1}
 	};
-	#else
-	{
-#nop {the option wasn't in the menu, so just pass to the game and hope for the best.};		
-#send {&0}
-	}
-};
-#nop {pass all selected  options to the game.};
-$options
+	#line {gag};
+	#nop {Press enter for the first choice};
+	#history {insert} {${menu[1]}}
 }
 {9}
 
 #ALIAS {^PLAY %1}
 {
 	#system {play -qV0 "$HOME/sounds/${game.name}/%1"&}
+}
+{9}
+
+#ALIAS {^{\d+([, ]\d+)*}$}
+{
+	#nop {Set options to blank.};
+	#variable {options} {};
+	#nop {Store the numbers separated by spaces or comma in $i. Replace , and space with ;};
+	#variable {i} {%0};
+	#replace {i} {,} {;};
+	#replace {i} { } {;};
+	#nop {Go through all the options selected by $i};
+	#forall {$i}{#nop {If the selected number is in the menus index, add it to the output string.};#if {&{menu[&0]}}{#nop {Output sent to the game must be in lower case.};#format {output} {%l} {${menu[&0]}};#nop {Remove the playable file.ogg from the selection, or the option won't be recognized.};#replace {output} {.*~} {};#nop {options contains all the selected numbers to be passed. This could be one option for a menu, or several for a checklist.};#variable {options} {${options}${output}}};#else {#nop {the option wasn't in the menu, so just pass to the game and hope for the best.};#send {&0}}};
+	#nop {pass all selected  options to the game.};
+	$options
 }
 {9}
 
@@ -159,7 +155,7 @@ $options
 #CONFIG           {LOG}  {RAW}
 #CONFIG           {PACKET PATCH}  {0.00}
 #CONFIG           {REPEAT CHAR}  {!}
-#CONFIG           {REPEAT ENTER}  {OFF}
+#CONFIG           {REPEAT ENTER}  {ON}
 #CONFIG           {SCROLL LOCK}  {ON}
 #CONFIG           {SPEEDWALK}  {OFF}
 #CONFIG           {TINTIN CHAR}  {#}
@@ -177,6 +173,17 @@ $options
 }
 
 #GAG              {^+{KILLCHOICE|LOGGEDIN|OK}$}
+#PATHDIR          {d}  {u}  {32}
+#PATHDIR          {e}  {w}  {2}
+#PATHDIR          {n}  {s}  {1}
+#PATHDIR          {ne}  {sw}  {3}
+#PATHDIR          {nw}  {se}  {9}
+#PATHDIR          {s}  {n}  {4}
+#PATHDIR          {se}  {nw}  {6}
+#PATHDIR          {sw}  {ne}  {12}
+#PATHDIR          {u}  {d}  {16}
+#PATHDIR          {w}  {e}  {8}
 #SESSION {RS Games} {game.rsgames.org} {3555}
-#SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }              {}  {1}
+#SUBSTITUTE       {^+CHAT %S|%2} {%1: '%2'}
+#SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {}  {1}
 #VARIABLE         {rsGamesVersionNumber}  {2.01}
