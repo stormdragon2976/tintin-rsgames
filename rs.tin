@@ -81,6 +81,13 @@
 			#echo {(ctrl+$output) %3};
 			#macro {\c$output} {%2}
 		};
+		#case {"ALT+%?"}
+		{
+			#variable {output} {%1};
+			#replace {output} {%*+} {};
+			#echo {(alt+shift+$output) %3};
+			#macro {\e$output} {%2}
+		};
 		#default
 		{
 			#echo {%0}
@@ -112,7 +119,7 @@
 #ACTION {^+OK Please provide version verification in order to continue$}
 {
 	cversion rs games client|${rsGamesVersionNumber};
-	#gag {line};
+	#line {gag};
 	#cr
 }
 {9}
@@ -164,6 +171,21 @@
 		#math {i} {$i + 1}
 	};
 	#line {gag};
+	#nop {Press enter for the first choice};
+	#history {insert} {${menu[1]}}
+}
+{9}
+
+#ACTION {^I couldn't understand that.$}
+{
+	#variable {i} {1};
+	#while {$i <= $menuSize}
+	{
+		#variable {output} {$i: ${menu[$i]}};
+		#replace {output} {playable%*.ogg~} {(playable) };
+		#echo {$output};
+		#math {i} {$i + 1}
+	};
 	#nop {Press enter for the first choice};
 	#history {insert} {${menu[1]}}
 }
@@ -244,6 +266,6 @@
 #PATHDIR          {u}  {d}  {16}
 #PATHDIR          {w}  {e}  {8}
 #SESSION {RS Games} {game.rsgames.org} {3555}
-#SUBSTITUTE       {^+CHAT %S|%2} {%1: '%2'}
 #SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {}  {1}
+#SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {5}
 #VARIABLE         {rsGamesVersionNumber}  {2.01}
