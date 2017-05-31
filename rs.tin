@@ -1,0 +1,182 @@
+#ACTION {^+{CHECKLIST|CHOICE} %*}
+{
+	#list {menu} {clear};
+	#variable {text} {%2};
+	#replace {text} {|} {;};
+	#list {menu} {add} {$text};
+	#variable {i} {1};
+	#list {menu} {size} {menuSize};
+	#while {$i <= $menuSize}
+	{
+		#variable {output} {$i: ${menu[$i]}};
+		#replace {output} {playable%*.ogg~} {(playable) };
+		#echo {$output};
+		#if {"%1" == "CHECKLIST"}
+{
+#math {menu[$i]} {$i - 1};
+#variable {menu[$i]} {${menu[$i]},}
+};
+		#math {i} {$i + 1}
+	};
+	#line {gag}
+}
+{9}
+
+#ACTION {^+CONFIG-READ config.ini|uuids$}
+{
+	#cr;
+	#line {gag}
+}
+{9}
+
+#ACTION {^+GAMENAME %1}
+{
+	#variable {game.name} {%1};
+	#system {if [ ! -d "$HOME/sounds/%1" ]; then mkdir -p "$HOME/sounds/%1";fi}
+}
+{9}
+
+#ACTION {^+KEYBIND %1|%2|%3}
+{
+	#line {gag};
+	#switch {"%1"}
+	{
+		#case {"%?"}
+		{
+			#format {output} {%l} {%1};
+			#echo {(alt+$output) %3};
+			#macro {\e$output} {%2}
+		};
+		#case {"CONTROL+%?"}
+		{
+			#format {output} {%l} {%1};
+			#replace {output} {control+} {};
+			#echo {(ctrl+$output) %3};
+			#macro {\c$output} {%2}
+		};
+		#default
+		{
+			#echo {%0}
+		}
+	}
+}
+{1}
+
+#ACTION {^+MSG Please select an option.$}
+{
+	#list {menu} {clear}
+}
+{9}
+
+#ACTION {^+OK Please provide version verification in order to continue$}
+{
+	cversion rs games client|${rsGamesVersionNumber};
+	#gag {line};
+	#cr
+}
+{9}
+
+#ACTION {^+SND-CHECK {No|Yes}|%2|http://zanosoft.net/zgp/snd-download/?game=%3|http://zanosoft.net/zgp/snd-download$}
+{
+	#variable {game.name} {%2};
+	#system {if [ ! -d "$HOME/sounds/%2" ]; then mkdir -p "$HOME/sounds/%2";fi}
+}
+{9}
+
+#ACTION {^+SND-PLAY %S.%w$}
+{
+	#line {gag};
+#switch {"%1.%2"}
+{
+#case {"shake.ogg"} {#variable {output} {Shake.ogg}};
+#default {#format {output} {%l} {%1.%2}}
+};
+	#script {if [ ! -f "$HOME/sounds/${game.name}/$output" ]; then sox -q "http://zanosoft.net/zgp/snd-download/${game.name}/$output" "$HOME/sounds/${game.name}/$output";fi};
+	PLAY $output
+}
+{9}
+
+#ALIAS {^{\d+([, ]\d+)*}$}
+{
+#nop {Set options to blank.};
+#variable {options} {};
+#nop {Store the numbers separated by spaces or comma in $i. Replace , and space with ;};
+#variable {i} {%0};
+#replace {i} {,} {;};
+#replace {i} { } {;};
+#nop {Go through all the options selected by $i};
+#forall {$i}
+{
+#nop {If the selected number is in the menus index, add it to the output string.};	
+#if {&{menu[&0]}}
+	{
+#nop {Output sent to the game must be in lower case.};		
+#format {output} {%l} {${menu[&0]}};
+#nop {Remove the playable file.ogg from the selection, or the option won't be recognized.};		
+#replace {output} {.*~} {};
+#nop {options contains all the selected numbers to be passed. This could be one option for a menu, or several for a checklist.};		
+#variable {options} {${options}${output}}
+	};
+	#else
+	{
+#nop {the option wasn't in the menu, so just pass to the game and hope for the best.};		
+#send {&0}
+	}
+};
+#nop {pass all selected  options to the game.};
+$options
+}
+{9}
+
+#ALIAS {^PLAY %1}
+{
+	#system {play -qV0 "$HOME/sounds/${game.name}/%1"&}
+}
+{9}
+
+#ALIAS {^{y|n}$}
+{
+	#if {"%0" == "y"}
+	{
+		#send {yes}
+	};
+	#else
+	{
+		#send {no}
+	}
+}
+{9}
+
+#CONFIG           {256 COLORS}  {OFF}
+#CONFIG           {AUTO TAB}  {5000}
+#CONFIG           {BUFFER SIZE}  {20000}
+#CONFIG           {CHARSET}  {ASCII}
+#CONFIG           {COLOR PATCH}  {OFF}
+#CONFIG           {COMMAND COLOR}  {<078>}
+#CONFIG           {COMMAND ECHO}  {OFF}
+#CONFIG           {CONNECT RETRY}  {0}
+#CONFIG           {HISTORY SIZE}  {1000}
+#CONFIG           {LOG}  {RAW}
+#CONFIG           {PACKET PATCH}  {0.00}
+#CONFIG           {REPEAT CHAR}  {!}
+#CONFIG           {REPEAT ENTER}  {OFF}
+#CONFIG           {SCROLL LOCK}  {ON}
+#CONFIG           {SPEEDWALK}  {OFF}
+#CONFIG           {TINTIN CHAR}  {#}
+#CONFIG           {VERBATIM}  {OFF}
+#CONFIG           {VERBATIM CHAR}  {\}
+#CONFIG           {VERBOSE}  {OFF}
+#CONFIG           {WORDWRAP}  {ON}
+#EVENT {SESSION CONNECTED}
+{
+	#nop {Set the home directory variable.};
+	#script {HOME} {if [ -z "$XDG_CONFIG_HOME" ] ; then if ! [ -d "$HOME/.config/tintin-rsgames/" ] ; then mkdir -p "$HOME/.config/tintin-rsgames";fi;echo -n "$HOME/.config/tintin-rsgames";else if ! [ -d "$XDG_CONFIG_HOME/tintin-rsgames/" ] ; then mkdir -p "$XDG_CONFIG_HOME/tintin-rsgames/";fi;echo -n "$XDG_CONFIG_HOME/tintin-rsgames";fi};
+	#variable {HOME} {${HOME[1]}};
+	#replace {HOME} {-n } {};
+	#system {if [ ! -d "$HOME/sounds" ]; then mkdir -p "$HOME/sounds";fi}
+}
+
+#GAG              {^+{KILLCHOICE|LOGGEDIN|OK}$}
+#SESSION {RS Games} {game.rsgames.org} {3555}
+#SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }              {}  {1}
+#VARIABLE         {rsGamesVersionNumber}  {2.01}
