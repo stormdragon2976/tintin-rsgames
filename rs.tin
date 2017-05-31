@@ -8,6 +8,66 @@
 			#echo {(%1) %3};
 			#history {insert} {%2}
 		};
+		#case {"F1"}
+		{
+			#echo {(%1) %3};
+			#macro {\eOP} {%2}
+		};
+		#case {"F2"}
+		{
+			#echo {(%1) %3};
+			#macro {\eOQ} {%2}
+		};
+		#case {"F3"}
+		{
+			#echo {(%1) %3};
+			#macro {\eOR} {%2}
+		};
+		#case {"F4"}
+		{
+			#echo {(%1) %3};
+			#macro {\eOS} {%2}
+		};
+		#case {"F5"}
+		{
+			#echo {(%1) %3};
+			#macro {\e[15~} {%2}
+		};
+		#case {"F6"}
+		{
+			#echo {(%1) %3};
+			#macro {\e[17~} {%2}
+		};
+		#case {"F7"}
+		{
+			#echo {(%1) %3};
+			#macro {\e[18~} {%2}
+		};
+		#case {"F8"}
+		{
+			#echo {(%1) %3};
+			#macro {\e[19~} {%2}
+		};
+		#case {"F9"}
+		{
+			#echo {(%1) %3};
+			#macro {\e[20~} {%2}
+		};
+		#case {"F10"}
+		{
+			#echo {(%1) %3};
+			#macro {\e[21~} {%2}
+		};
+		#case {"F11"}
+		{
+			#echo {(%1) %3};
+			#macro {\e[23~} {%2}
+		};
+		#case {"F12"}
+		{
+			#echo {(%1) %3};
+			#macro {\e[24~} {%2}
+		};
 		#case {"%?"}
 		{
 			#format {output} {%l} {%1};
