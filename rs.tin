@@ -75,6 +75,15 @@
 }
 {8}
 
+#ACTION {^+%1 transcript of this game %2}
+{
+	#if {"${auto.reject}" == "true"}
+	{
+		no
+	}
+}
+{9}
+
 #ACTION {^+%w You don't have any playable cards.$}
 {
 	#if {"${auto.draw}" == "true"}
@@ -267,7 +276,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{draw}$}
+#ALIAS {^{noauto|auto}{draw|reject}$}
 {
 	#class {settings} {open};
 	#if {"%1" == "auto"}
