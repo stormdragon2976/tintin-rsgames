@@ -222,6 +222,20 @@
 }
 {9}
 
+#ACTION {^+WEBBROWSER %S$}
+{
+	#line {gag};
+	#if {"$GUI" == "true"}
+	{
+		#system {xdg-open '%1'&}
+	};
+	#else
+	{
+		#echo {%1}
+	}
+}
+{9}
+
 #ACTION {^+{CHECKLIST|CHOICE} %*}
 {
 	#list {menu} {clear};
@@ -347,7 +361,10 @@
 	#script {HOME} {if [ -z "$XDG_CONFIG_HOME" ] ; then if ! [ -d "$HOME/.config/tintin-rsgames/" ] ; then mkdir -p "$HOME/.config/tintin-rsgames";fi;echo -n "$HOME/.config/tintin-rsgames";else if ! [ -d "$XDG_CONFIG_HOME/tintin-rsgames/" ] ; then mkdir -p "$XDG_CONFIG_HOME/tintin-rsgames/";fi;echo -n "$XDG_CONFIG_HOME/tintin-rsgames";fi};
 	#variable {HOME} {${HOME[1]}};
 	#replace {HOME} {-n } {};
-	#system {if [ ! -d "$HOME/sounds" ]; then mkdir -p "$HOME/sounds";fi}
+	#system {if [ ! -d "$HOME/sounds" ]; then mkdir -p "$HOME/sounds";fi};
+	#nop {Find out if we have a display or not};
+	#script {GUI} {if [ -n "$DISPLAY" ]; then echo "true";else echo "false";fi};
+	#variable {GUI} {${GUI[1]}}
 }
 
 #GAG              {^+%*We have just launched a new voice chat feature%*}
