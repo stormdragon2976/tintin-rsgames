@@ -227,7 +227,7 @@
 	#line {gag};
 	#if {"$GUI" == "true"}
 	{
-		#system {xdg-open '%1'&}
+		#system {xdg-open '%1' &> /dev/null &}
 	};
 	#else
 	{
