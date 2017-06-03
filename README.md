@@ -5,7 +5,8 @@ A CLI based version of the RS Games client that runs in tintin++!
 
 * menu driven selection system
 * Bility to automatically draw cards if it is the only option in games like Uno. Enable by typing _autodraw_ or turn it off with _noautodraw_.
-* Automatically reject game transcripts by typing _autoreject_ you can diable it with _noautoreject_.
+* Automatically reject game transcripts by typing _autoreject_ you can disable it with _noautoreject_.
+* Automatically start the next hand in games like Uno using the _autostart_ command. Turn it off with _noautostart_.
 
 ## Usage
 

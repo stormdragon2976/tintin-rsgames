@@ -157,7 +157,10 @@
 		};
 		#default
 		{
-			#echo {%0};
+			#if {"$debug" == "true"}
+			{
+				#echo {%0}
+			};
 			#break
 		}
 	};
@@ -169,6 +172,11 @@
 			#echo {(ALT+%1) %3}
 		};
 		#variable {oldKeys.%1} {%2}
+	};
+	#if {"${auto.start}" == "true" &&"%2" == "postpone"}
+	{
+		postpone;
+		startgame
 	}
 }
 {9}
@@ -282,7 +290,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{draw|reject}$}
+#ALIAS {^{noauto|auto}{draw|reject|start}$}
 {
 	#class {settings} {open};
 	#if {"%1" == "auto"}
@@ -343,7 +351,7 @@
 }
 
 #GAG              {^+%*We have just launched a new voice chat feature%*}
-#GAG              {^+KEYBIND CONTROL+SHIFT+V|start_voice_chat|Start or Stop Voice Chat$}
+#GAG              {^+KEYBIND%*Voice Chat%*}
 #GAG              {^+OK rsgames.org Zano Game Protocol Server %*}
 #GAG              {^+SND-{C|D|S}%*}
 #GAG              {^+{CLEARKEYBINDING|KILLCHOICE|LOGGEDIN|NOGAME|OK}$}
@@ -360,6 +368,7 @@
 #SESSION {RS Games} {game.rsgames.org} {3555}
 #SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {}  {1}
 #SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {5}
+#VARIABLE         {debug}  {false}
 #VARIABLE         {i}  {}
 #VARIABLE         {lastSound}  {}
 #VARIABLE         {menu}  {}
