@@ -68,6 +68,38 @@
 }
 {8}
 
+#ACTION {^+KEYBIND {ALT|CONTROL}+F{1|2|3|4|5|6|7|8|9|10|11|12}|%3|%4}
+{
+	#switch {"F%1"}
+	{
+		#case {"ALT"}
+		{
+			#macro {\e%2} {%3}
+		};
+		#case {"CONTROL"}
+		{
+			#macro {\c%2} {%3}
+		}
+	};
+	#if {"${oldKeys.%2} != "%3"}
+	{
+		#echo {(%1+F%2) %4};
+		#variable {oldKeys.%2} {%3}
+	};
+	#line {gag}
+}
+{8}
+
+#ACTION {^+%*Please check which die you would like to re-roll. Check none to keep all.$}
+{
+	#list {menu} {find} {none} {i};
+	#if {$i == 0}
+	{
+		#list {menu} {add} {none}
+	}
+}
+{9}
+
 #ACTION {^+%1 transcript of this game %2}
 {
 	#if {"${auto.reject}" == "true"}
@@ -289,12 +321,22 @@
 }
 {9}
 
-#ALIAS {^{\d+([, ]\d+)*}$}
+#ALIAS {^{\d+([, -]\d+)*}$}
 {
 	#nop {Set options to blank.};
 	#variable {options} {};
 	#nop {Store the numbers separated by spaces or comma in $i. Replace , and space with ;};
 	#variable {i} {%0};
+	#nop {make numbers separated by - into ranges, so you can do a-3,4,7-9 for example.};
+	#variable {continue} {0};
+	#while {$continue == 0}
+	{
+		#regexp {$i} {{\d*}-{\d*}} {#replace {i} {&0{\s*|,*}} {};#loop {&1} {&2} {l} {#variable {i} {${i}$l,}}};
+		#else
+		{
+			#variable {continue} {1}
+		}
+	};
 	#replace {i} {,} {;};
 	#replace {i} { } {;};
 	#nop {Go through all the options selected by $i};
