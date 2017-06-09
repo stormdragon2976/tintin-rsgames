@@ -1,3 +1,40 @@
+#ACTION {^+KEYBIND {ALT|CONTROL}+F{1|2|3|4|5|6|7|8|9|10|11|12}|%3|%4}
+{
+	#switch {"%1"}
+	{
+		#nop {output is assigned to the number, because for control+f sequences we have to assign them to alt+shift+number instead of control+number.};
+		#case {"ALT"}
+		{
+			#macro {\e%2} {%3};
+			#variable {output} {%2}
+		};
+		#case {"CONTROL"}
+		{
+			#variable {output} {%2};
+			#replace {output} {12} {+};
+			#replace {output} {11} {_};
+			#replace {output} {10} {)};
+			#replace {output} {9} {(};
+			#replace {output} {8} {*};
+			#replace {output} {7} {&};
+			#replace {output} {6} {^};
+			#replace {output} {5} {%};
+			#replace {output} {4} {$};
+			#replace {output} {3} {#};
+			#replace {output} {2} {@};
+			#replace {output} {1} {!};
+			#macro {\e$output} {%3}
+		}
+	};
+	#if {"${oldKeys.ALT+$output} != "%3"}
+	{
+		#echo {(ALT+$output) %4};
+		#variable {oldKeys.ALT+$output} {%3}
+	};
+	#line {gag}
+}
+{7}
+
 #ACTION {^+KEYBIND F{1|2|3|4|5|6|7|8|9|10|11|12}|%2|%3}
 {
 	#switch {"F%1"}
@@ -67,43 +104,6 @@
 	#history {insert} {%1}
 }
 {8}
-
-#ACTION {^+KEYBIND {ALT|CONTROL}+F{1|2|3|4|5|6|7|8|9|10|11|12}|%3|%4}
-{
-	#switch {"%1"}
-	{
-		#nop {output is assigned to the number, because for control+f sequences we have to assign them to alt+shift+number instead of control+number.};
-		#case {"ALT"}
-		{
-			#macro {\e%2} {%3};
-			#variable {output} {%2};
-		};
-		#case {"CONTROL"}
-		{
-			#variable {output} {%2};
-			#replace {output} {12} {+};
-			#replace {output} {11} {_};
-			#replace {output} {10} {)};
-			#replace {output} {9} {(};
-			#replace {output} {8} {*};
-			#replace {output} {7} {&};
-			#replace {output} {6} {^};
-			#replace {output} {5} {%};
-			#replace {output} {4} {$};
-			#replace {output} {3} {#};
-			#replace {output} {2} {@};
-			#replace {output} {1} {!};
-			#macro {\e$output} {%3}
-		}
-	};
-	#if {"${oldKeys.ALT+$output} != "%3"}
-	{
-		#echo {(ALT+$output) %4};
-		#variable {oldKeys.ALT+$output} {%3}
-	};
-	#line {gag}
-}
-{7}
 
 #ACTION {^+%*Please check which die you would like to re-roll. Check none to keep all.$}
 {
@@ -428,7 +428,7 @@
 #GAG              {^+KEYBIND%*Voice%*}
 #GAG              {^+OK rsgames.org Zano Game Protocol Server %*}
 #GAG              {^+SND-{C|D|S}%*}
-#GAG              {^+{CLEARKEYBINDING|INGAME|KILLCHOICE|LOGGEDIN|NOGAME|OK}$}
+#GAG              {^+{CLEARKEYBINDING|INGAME|KILLCHOICE|LOGGEDIN|NOGAME|OK|VC-DISCONNECT}$}
 #PATHDIR          {d}  {u}  {32}
 #PATHDIR          {e}  {w}  {2}
 #PATHDIR          {n}  {s}  {1}
@@ -439,9 +439,10 @@
 #PATHDIR          {sw}  {ne}  {12}
 #PATHDIR          {u}  {d}  {16}
 #PATHDIR          {w}  {e}  {8}
-#SESSION {RS Games} {game.rsgames.org} {3555}
-#substitute {+MSG %1Alt+F%d %3} {%1 ALT+%2 %3} {1}
-#substitute {+MSG %1Control+F%d %3} {%1 ALT+SHIFT+%2 %3} {1}
+#SESSION {RS Games} {game.rsgames.org} {3555} 
+#SUBSTITUTE       {+MSG %1Alt+F%d %3}  {%1 ALT+%2 %3}  {1}
+#SUBSTITUTE       {+MSG %1Control+F%d %3}   {%1 ALT+SHIFT+%2 %3}  {1}
+#SUBSTITUTE       {^+MSG You can't play that card. Would you like to discard it?$}                                            {You can't play ${menu[$i]}\. would you like to discard it?}                                   {1}
 #SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {}  {1}
 #SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {5}
 #VARIABLE         {debug}  {false}
