@@ -20,7 +20,8 @@
 {
 	#if {&{gs}}
 	{
-		#system {curl -s -u "${gs.user}:${gs.password}" --data-urlencode status="%1 #RSGames" -d source="tintin-rsgames" ${gs.url}/api/statuses/update.json &> /dev/null&}
+		#system {curl -s -u "${gs.user}:${gs.password}" --data-urlencode status="%1 #RSGames" -d source="tintin-rsgames" ${gs.url}/api/statuses/update.json &> /dev/null&};
+		#echo {Posted to ${gs.url}!}
 	}
 }
 {9}
