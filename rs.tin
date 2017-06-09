@@ -70,25 +70,40 @@
 
 #ACTION {^+KEYBIND {ALT|CONTROL}+F{1|2|3|4|5|6|7|8|9|10|11|12}|%3|%4}
 {
-	#switch {"F%1"}
+	#switch {"%1"}
 	{
+		#nop {output is assigned to the number, because for control+f sequences we have to assign them to alt+shift+number instead of control+number.};
 		#case {"ALT"}
 		{
-			#macro {\e%2} {%3}
+			#macro {\e%2} {%3};
+			#variable {output} {%2};
 		};
 		#case {"CONTROL"}
 		{
-			#macro {\c%2} {%3}
+			#variable {output} {%2};
+			#replace {output} {12} {+};
+			#replace {output} {11} {_};
+			#replace {output} {10} {)};
+			#replace {output} {9} {(};
+			#replace {output} {8} {*};
+			#replace {output} {7} {&};
+			#replace {output} {6} {^};
+			#replace {output} {5} {%};
+			#replace {output} {4} {$};
+			#replace {output} {3} {#};
+			#replace {output} {2} {@};
+			#replace {output} {1} {!};
+			#macro {\e$output} {%3}
 		}
 	};
-	#if {"${oldKeys.%2} != "%3"}
+	#if {"${oldKeys.ALT+$output} != "%3"}
 	{
-		#echo {(%1+F%2) %4};
-		#variable {oldKeys.%2} {%3}
+		#echo {(ALT+$output) %4};
+		#variable {oldKeys.ALT+$output} {%3}
 	};
 	#line {gag}
 }
-{8}
+{7}
 
 #ACTION {^+%*Please check which die you would like to re-roll. Check none to keep all.$}
 {
@@ -410,10 +425,10 @@
 }
 
 #GAG              {^+%*We have just launched a new voice chat feature%*}
-#GAG              {^+KEYBIND%*Voice Chat%*}
+#GAG              {^+KEYBIND%*Voice%*}
 #GAG              {^+OK rsgames.org Zano Game Protocol Server %*}
 #GAG              {^+SND-{C|D|S}%*}
-#GAG              {^+{CLEARKEYBINDING|KILLCHOICE|LOGGEDIN|NOGAME|OK}$}
+#GAG              {^+{CLEARKEYBINDING|INGAME|KILLCHOICE|LOGGEDIN|NOGAME|OK}$}
 #PATHDIR          {d}  {u}  {32}
 #PATHDIR          {e}  {w}  {2}
 #PATHDIR          {n}  {s}  {1}
