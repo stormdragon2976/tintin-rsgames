@@ -440,6 +440,8 @@
 #PATHDIR          {u}  {d}  {16}
 #PATHDIR          {w}  {e}  {8}
 #SESSION {RS Games} {game.rsgames.org} {3555}
+#substitute {+MSG %1Alt+F%d %3} {%1 ALT+%2 %3} {1}
+#substitute {+MSG %1Control+F%d %3} {%1 ALT+SHIFT+%2 %3} {1}
 #SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {}  {1}
 #SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {5}
 #VARIABLE         {debug}  {false}
