@@ -424,6 +424,11 @@
 	#variable {GUI} {${GUI[1]}}
 }
 
+#EVENT {SESSION DISCONNECTED}
+{
+	#end
+}
+
 #GAG              {^+%*We have just launched a new voice chat feature%*}
 #GAG              {^+KEYBIND%*Voice%*}
 #GAG              {^+OK rsgames.org Zano Game Protocol Server %*}
