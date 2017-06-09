@@ -278,7 +278,7 @@
 	};
 	#else
 	{
-		#echo {%1}
+		#script {echo "%1" | tee /tmp/fenrirClipboard}
 	}
 }
 {9}
