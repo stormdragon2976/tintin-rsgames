@@ -1,0 +1,19 @@
+#alias {^music$}
+{
+#script {game.message}
+{
+if pgrep audacious &> /dev/null ; then command audtool --current-song; elif pgrep mopidy\|mpd &> /dev/null ; then mpc -f "%artist% - %title% from %album%" current ; else echo "No music player detected.";fi
+};
+#variable {game.message} {${game.message[1]}};
+#if {"${game.message}" != "No music player detected."}
+{
+chat;
+Now playing: ${game.message}
+};
+#else
+{
+#echo {${game.message}}
+};
+#unvariable {game.message}
+}
+{9}
