@@ -1,12 +1,34 @@
 #ACTION {^+MSG This is your %1 win!$}
 {
-	#delay {1} {POST ${game.message} This is my %1 win!;#variable {game.message} {}}
+	#if {!&{game.message}}
+	{
+		#regexp {${game.name}} {{.*} {.*}} {#variable {game.message} {I Won a game of ${game.name}!}};
+		#else
+		{
+			#variable {game.message} {I Won a game of #${game.name}!}
+		}
+	};
+	#delay {1} {POST ${game.message} This is my %1 win!;#unvariable {game.message}}
+}
+{9}
+
+#ACTION {^+MSG You have reached a score of %d. You win the game! This is your %2 win!$}
+{
+	#regexp {${game.name}} {{.*} {.*}} {POST I won ${game.name} with a final score of %1 points. This is my %2 win!};
+	#else
+	{
+		POST I won #${game.name} with a final score of %1 points. This is my %2 win!
+	}
 }
 {9}
 
 #ACTION {^+MSG You win the game! You had a score of %d points!%2}
 {
-	#variable {game.message} {I won a game of ${game.name} with a final score of %1 points.}
+	#regexp {${game.name}} {{.*} {.*}} {#variable {game.message} {I won a game of ${game.name} with a final score of %1 points.}};
+	#else
+	{
+		#variable {game.message} {I won a game of #${game.name} with a final score of %1 points.}
+	}
 }
 {9}
 
