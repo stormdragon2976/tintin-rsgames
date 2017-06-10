@@ -420,7 +420,7 @@
 	#replace {HOME} {-n } {};
 	#system {if [ ! -d "$HOME/sounds" ]; then mkdir -p "$HOME/sounds";fi};
 	#nop {Load plugins, if any.};
-	#script {if [ -d "plugins" ]; then for i in plugins/*.tin ; do className="${className%.tin}";className="${className##*/}";echo "#class {$className} {read} {$i}";done;fi};
+	#script {if [ -d "plugins" ]; then for i in plugins/*.tin ; do echo "#class {$(basename "$i" ".tin")} {read} {$i}";done;fi};
 	#nop {Find out if we have a display or not};
 	#script {GUI} {if [ -n "$DISPLAY" ]; then echo "true";else echo "false";fi};
 	#variable {GUI} {${GUI[1]}}
@@ -453,6 +453,7 @@
 #SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {}  {1}
 #SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {5}
 #VARIABLE         {debug}  {false}
+#VARIABLE         {game}  {}
 #VARIABLE         {i}  {}
 #VARIABLE         {lastSound}  {}
 #VARIABLE         {menu}  {}
