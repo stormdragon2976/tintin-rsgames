@@ -32,6 +32,12 @@
 }
 {9}
 
+#ACTION {^+MSG You win the game, with a total of %d cards! This is your %2 win!%*}
+{
+	POST I won a game of ${game.name} with a total of %1 cards! This is my %2 win!
+}
+{9}
+
 #ACTION {^+MSG you have won the game, with a total of %d brains!$}
 {
 	#variable {game.message} {I won ${game.name} with a total of %1 brains!}
