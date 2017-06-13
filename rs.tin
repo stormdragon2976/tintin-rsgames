@@ -255,6 +255,22 @@
 	#line {gag};
 	#switch {"%2.%3"}
 	{
+		#case {"Drawcard.ogg"}
+		{
+			#variable {output} {Drawcard.ogg}
+		};
+		#case {"House1.ogg"}
+		{
+			#variable {output} {House1.ogg}
+		};
+		#case {"House2.ogg"}
+		{
+			#variable {output} {House2.ogg}
+		};
+		#case {"Gotojail.ogg"}
+		{
+			#variable {output} {Gotojail.ogg}
+		};
 		#case {"shake.ogg"}
 		{
 			#variable {output} {Shake.ogg}
@@ -265,7 +281,11 @@
 		}
 	};
 	#script {if [ ! -f "$HOME/sounds/${game.name}/$output" ]; then sox -q "http://zanosoft.net/zgp/snd-download/${game.name}/$output" "$HOME/sounds/${game.name}/$output";fi};
-	PLAY $output
+	PLAY $output;
+	#if {"$debug" == "true"}
+	{
+		#echo {play $output}
+	}
 }
 {9}
 
@@ -435,7 +455,7 @@
 #GAG              {^+KEYBIND%*Voice%*}
 #GAG              {^+OK rsgames.org Zano Game Protocol Server %*}
 #GAG              {^+SND-{C|D|S}%*}
-#GAG              {^+{CLEARKEYBINDING|INGAME|KILLCHOICE|LOGGEDIN|NOGAME|OK|VC-DISCONNECT}$}
+#GAG              {^+{CASH .*|CLEARKEYBINDING|GETCASH .*|INGAME|KILLCHOICE|LOGGEDIN|NOGAME|OK|PTURNOVER|VC-DISCONNECT}$}
 #PATHDIR          {d}  {u}  {32}
 #PATHDIR          {e}  {w}  {2}
 #PATHDIR          {n}  {s}  {1}
@@ -446,7 +466,7 @@
 #PATHDIR          {sw}  {ne}  {12}
 #PATHDIR          {u}  {d}  {16}
 #PATHDIR          {w}  {e}  {8}
-#SESSION {RS Games} {game.rsgames.org} {3555} 
+#SESSION {RS Games} {game.rsgames.org} {3555}
 #SUBSTITUTE       {+MSG %1Alt+F%d %3}  {%1 ALT+%2 %3}  {1}
 #SUBSTITUTE       {+MSG %1Control+F%d %3}   {%1 ALT+SHIFT+%2 %3}  {1}
 #SUBSTITUTE       {^+MSG You can't play that card. Would you like to discard it?$}                                            {You can't play ${menu[$i]}\. would you like to discard it?}                                   {1}
