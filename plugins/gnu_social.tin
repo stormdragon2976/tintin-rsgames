@@ -8,7 +8,10 @@
 			#variable {game.message} {I Won a game of #${game.name}!}
 		}
 	};
-	#delay {1} {POST ${game.message} This is my %1 win!;#unvariable {game.message}}
+	#if {"${game.name}" != "Shut The Box"}
+	{
+		#delay {1} {POST ${game.message} This is my %1 win!;#unvariable {game.message}}
+	}
 }
 {9}
 
