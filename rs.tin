@@ -119,7 +119,7 @@
 {
 	#if {"${auto.reject}" == "true"}
 	{
-		no
+		#send {no}
 	}
 }
 {9}
@@ -128,7 +128,7 @@
 {
 	#if {"${auto.draw}" == "true"}
 	{
-		Draw card
+		#send {Draw card}
 	}
 }
 {9}
@@ -142,7 +142,7 @@
 	{
 		#variable {output} {};
 		#forall {${uuids[%*]}}{#variable {output} {${output}&0,}};
-		$output
+		#send {$output}
 	};
 	#else
 	{
@@ -222,8 +222,7 @@
 	};
 	#if {"${auto.start}" == "true" &&"%2" == "postpone"}
 	{
-		postpone;
-		startgame
+		#send {postpone;startgame}
 	}
 }
 {9}
@@ -236,7 +235,7 @@
 
 #ACTION {^+OK Please provide version verification in order to continue$}
 {
-	cversion rs games client|${rsGamesVersionNumber};
+	#send {cversion rs games client|${rsGamesVersionNumber}};
 	#line {gag};
 	#cr
 }
@@ -281,11 +280,7 @@
 		}
 	};
 	#script {if [ ! -f "$HOME/sounds/${game.name}/$output" ]; then sox -q "http://zanosoft.net/zgp/snd-download/${game.name}/$output" "$HOME/sounds/${game.name}/$output";fi};
-	PLAY $output;
-	#if {"$debug" == "true"}
-	{
-		#echo {play $output}
-	}
+	PLAY $output
 }
 {9}
 
@@ -344,6 +339,12 @@
 }
 {9}
 
+#ALIAS {^history$}
+{
+	#forall {${game.inputHistory[%*]}}{#echo {&0}}
+}
+{9}
+
 #ALIAS {^PLAY %1}
 {
 	#system {play -qV0 "$HOME/sounds/${game.name}/%1"&}
@@ -352,7 +353,7 @@
 
 #ALIAS {^start$}
 {
-	startgame
+	#send {startgame}
 }
 {9}
 
@@ -432,6 +433,11 @@
 #CONFIG           {VERBATIM CHAR}  {\}
 #CONFIG           {VERBOSE}  {OFF}
 #CONFIG           {WORDWRAP}  {ON}
+#EVENT {RECEIVED INPUT}
+{
+	#list {game.inputHistory} {add} {%0}
+}
+
 #EVENT {SESSION CONNECTED}
 {
 	#nop {Set the home directory variable.};
