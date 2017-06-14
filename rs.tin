@@ -220,9 +220,10 @@
 		};
 		#variable {oldKeys.%1} {%2}
 	};
-	#if {"${auto.start}" == "true" &&"%2" == "postpone"}
+	#if {"${auto.start}" == "true" && "%2" == "postpone"}
 	{
-		#send {postpone;startgame}
+		#send {postpone};
+		#send {startgame}
 	}
 }
 {9}
