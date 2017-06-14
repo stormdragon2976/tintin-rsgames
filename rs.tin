@@ -325,7 +325,7 @@
 	};
 	#line {gag};
 	#nop {Press enter for the first choice};
-	#history {insert} {${menu[1]}}
+	#history {insert} {#send {${menu[1]}}}
 }
 {9}
 
@@ -340,7 +340,7 @@
 		#math {i} {$i + 1}
 	};
 	#nop {Press enter for the first choice};
-	#history {insert} {${menu[1]}}
+	#history {insert} {#send {${menu[1]}}}
 }
 {9}
 
