@@ -375,7 +375,7 @@
 	#replace {i} {,} {;};
 	#replace {i} { } {;};
 	#nop {Go through all the options selected by $i};
-	#forall {$i}{#nop {If the selected number is in the menus index, add it to the output string.};#if {&{menu[&0]}}{#nop {Output sent to the game must be in lower case.};#format {output} {%l} {${menu[&0]}};#nop {Remove the playable file.ogg from the selection, or the option won't be recognized.};#replace {output} {.*~} {};#nop {options contains all the selected numbers to be passed. This could be one option for a menu, or several for a checklist.};#variable {options} {${options}${output}}};#else {#nop {the option wasn't in the menu, so just pass to the game and hope for the best.};#send {&0}}};
+	#forall {$i}{#nop {If the selected number is in the menus index, add it to the output string.};#if {&{menu[&0]}}{#nop {Output sent to the game must be in lower case.};#format {output} {%l} {${menu[&0]}};#nop {Remove the playable file.ogg from the selection, or the option won't be recognized.};#replace {output} {.*~} {};#nop {options contains all the selected numbers to be passed. This could be one option for a menu, or several for a checklist.};#variable {options} {${options}${output}}};#else {#nop {the option wasn't in the menu, so just pass to the game and hope for the best.};#variable {options} {${options}&0}}};
 	#nop {pass all selected  options to the game.};
 	#send {$options}
 }
