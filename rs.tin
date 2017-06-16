@@ -337,15 +337,34 @@
 }
 {9}
 
-#ALIAS {^history$}
+#ALIAS {^/plugin %s{disable|enable} %s{([\w-_])*}$}
 {
-	#forall {${game.inputHistory[%*]}}{#echo {&0}}
+	#if {"%2" == "enable"}
+	{
+		#script {if [ -h "plugins-enabled/%4.tin" ]; then echo "#echo {Plugin '%4' is already enabled.}";elif [ ! -e "plugins/%4.tin" ]; then echo "#echo {Plugin '%4' not found.}";else if [ ! -d "plugins-enabled" ]; then mkdir "plugins-enabled";fi;ln -s "$(readlink -f $0 | sed -e 's/\/sh$//')/plugins/%4.tin" "$(readlink -f $0 | sed -e 's/\/sh$//')/plugins-enabled/%4.tin";echo "#class {%4} {read} {plugins-enabled/%4.tin};#echo {Plugin '%4' enabled.}";fi}
+	};
+	#else
+	{
+		#script {if [ ! -h "plugins-enabled/%4.tin" ]; then echo "#echo {Plugin '%4' is not enabled.}";else unlink "plugins-enabled/%4.tin";rmdir "plugins-enabled" 2> /dev/null;echo "#class {%4} {kill};#echo {Plugin '%4' disabled.}";fi}
+	}
+}
+{8}
+
+#ALIAS {^/plugin %slist$}
+{
+	#system {echo "Available plugins:";for x in plugins/*.tin ; do basename "$x" ".tin";done}
 }
 {9}
 
 #ALIAS {^PLAY %1}
 {
 	#system {play -qV0 "$HOME/sounds/${game.name}/%1"&}
+}
+{9}
+
+#ALIAS {^history$}
+{
+	#forall {${game.inputHistory[%*]}}{#echo {&0}}
 }
 {9}
 
@@ -444,7 +463,7 @@
 	#replace {HOME} {-n } {};
 	#system {if [ ! -d "$HOME/sounds" ]; then mkdir -p "$HOME/sounds";fi};
 	#nop {Load plugins, if any.};
-	#script {if [ -d "plugins" ]; then for i in plugins/*.tin ; do echo "#class {$(basename "$i" ".tin")} {read} {$i}";done;fi};
+	#script {if [ -d "plugins-enabled" ]; then for i in plugins-enabled/*.tin ; do echo "#class {$(basename "$i" ".tin")} {read} {$i}";done;fi};
 	#nop {Find out if we have a display or not};
 	#script {GUI} {if [ -n "$DISPLAY" ]; then echo "true";else echo "false";fi};
 	#variable {GUI} {${GUI[1]}}
@@ -470,14 +489,14 @@
 #PATHDIR          {sw}  {ne}  {12}
 #PATHDIR          {u}  {d}  {16}
 #PATHDIR          {w}  {e}  {8}
-#SESSION {RS Games} {game.rsgames.org} {3555}
+#SESSION {RS Games} {game.rsgames.org} {3555} 
 #SUBSTITUTE       {+MSG %1Alt+F%d %3}  {%1 ALT+%2 %3}  {1}
 #SUBSTITUTE       {+MSG %1Control+F%d %3}   {%1 ALT+SHIFT+%2 %3}  {1}
 #SUBSTITUTE       {^+MSG You can't play that card. Would you like to discard it?$}                                            {You can't play ${menu[$i]}\. would you like to discard it?}                                   {1}
 #SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {}  {1}
 #SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {5}
 #VARIABLE         {debug}  {false}
-#VARIABLE         {game}  {}
+#VARIABLE         {game}  {{inputHistory}{{1}{#write rs.tin}}}
 #VARIABLE         {i}  {}
 #VARIABLE         {lastSound}  {}
 #VARIABLE         {menu}  {}
