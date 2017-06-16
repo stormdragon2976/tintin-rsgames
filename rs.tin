@@ -148,16 +148,14 @@
 	{
 		#cr
 	};
-	#class {settings} {close};
-	#line {gag}
+	#class {settings} {close}
 }
 {9}
 
 #ACTION {^+CONFIG-WRITE config.ini|uuids|$}
 {
 	#list {uuids} {clear};
-	#class {settings} {write} {$HOME/config.tin};
-	#line {gag}
+	#class {settings} {write} {$HOME/config.tin}
 }
 {9}
 
@@ -168,8 +166,7 @@
 	{
 		#list {uuids} {add} {%1};
 		#class {settings} {write} {$HOME/config.tin}
-	};
-	#line {gag}
+	}
 }
 {9}
 
@@ -462,7 +459,7 @@
 #GAG              {^+KEYBIND%*Voice%*}
 #GAG              {^+OK rsgames.org Zano Game Protocol Server %*}
 #GAG              {^+SND-{C|D|S}%*}
-#GAG              {^+{CASH .*|CLEARKEYBINDING|GETCASH .*|INGAME|KILLCHOICE|LOGGEDIN|NOGAME|OK|PTURNOVER|VC-DISCONNECT}$}
+#GAG              {^+{CASH .*|CLEARKEYBINDING|CONFIG-.*|GETCASH .*|INGAME|KILLCHOICE|LOGGEDIN|NOGAME|OK|PTURNOVER|VC-DISCONNECT}$}
 #PATHDIR          {d}  {u}  {32}
 #PATHDIR          {e}  {w}  {2}
 #PATHDIR          {n}  {s}  {1}

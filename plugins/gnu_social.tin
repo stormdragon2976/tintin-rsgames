@@ -1,17 +1,32 @@
+#ACTION {^+CONFIG-READ config.ini|twitter_key:%*}
+{
+	#if {&{game.message}}
+	{
+		POST ${game.message}
+	}
+}
+{9}
+
 #ACTION {^+MSG This is your %1 win!$}
 {
 	#if {!&{game.message}}
 	{
-		#regexp {${game.name}} {{.*} {.*}} {#variable {game.message} {I Won a game of ${game.name}!}};
+		#regexp {${game.name}} {{.*} {.*}} {#variable {game.message} {I won a game of ${game.name}!}};
 		#else
 		{
-			#variable {game.message} {I Won a game of #${game.name}!}
+			#variable {game.message} {I won a game of #${game.name}!}
 		}
 	};
 	#if {"${game.name}" != "Shut The Box"}
 	{
 		#delay {1} {POST ${game.message} This is my %1 win!;#unvariable {game.message}}
 	}
+}
+{9}
+
+#ACTION {^+MSG Tweet: %1}
+{
+	#variable {game.message} {%1}
 }
 {9}
 
@@ -52,7 +67,8 @@
 	#if {&{gs}}
 	{
 		#system {curl -s -u "${gs.user}:${gs.password}" --data-urlencode status="%1 #RSGames" -d source="tintin-rsgames" ${gs.url}/api/statuses/update.json &> /dev/null&};
-		#echo {Posted to ${gs.url}!}
+		#echo {Posted to ${gs.url}!};
+		#unvariable {game.message}
 	}
 }
 {9}
