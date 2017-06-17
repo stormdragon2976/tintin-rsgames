@@ -410,7 +410,7 @@
 	#else
 	{
 		#variable {auto.%2} {false};
-		#echo {auto%2 enabled.}
+		#echo {auto%2 disabled.}
 	};
 	#class {settings} {write} {$HOME/config.tin};
 	#class {settings} {close}
