@@ -307,7 +307,10 @@
 	#while {$i <= $menuSize}
 	{
 		#variable {output} {$i: ${menu[$i]}};
+		#nop {Lots of formating output for playability, and add color for visual users.};
 		#replace {output} {playable%*.ogg~} {(playable) };
+		#replace {output} {{Blue draw two|Blue reverse|Blue skip|Blue \d+|Blue$}} {<049>&0<099>};
+		#replace {output} {{Red draw two|Red reverse|Red skip|Red \d+|Red$}} {<019>&0<099>};
 		#echo {$output};
 		#if {"%1" == "CHECKLIST"}
 		{
@@ -384,7 +387,7 @@
 	#variable {continue} {0};
 	#while {$continue == 0}
 	{
-		#regexp {$i} {{\d*}-{\d*}} {#replace {i} {&0{\s*|,*}} {};#loop {&1} {&2} {l} {#variable {i} {${i}$l,}}};
+		#regexp {$i} {{\d+}-{\d+}} {#replace {i} {&0{\s*|,*}} {};#loop {&1} {&2} {l} {#variable {i} {${i}$l,}}};
 		#else
 		{
 			#variable {continue} {1}
