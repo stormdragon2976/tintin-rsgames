@@ -497,7 +497,7 @@
 #PATHDIR          {u}  {d}  {16}
 #PATHDIR          {w}  {e}  {8}
 #SESSION {RS Games} {game.rsgames.org} {3555} 
-#SUBSTITUTE       {^+MSGI It is your turn.$}     {<599>It is your turn.<099>}   {1}
+#SUBSTITUTE       {I{t is|t's still} your turn.}     {<599>%0<099>}   {1}
 #SUBSTITUTE       {Blue}  {<049>Blue<099>}  {1}
 #SUBSTITUTE       {Green}  {<029>Green<099>}  {1}
 #SUBSTITUTE       {Red}  {<019>Red<099>}  {1}
