@@ -499,9 +499,9 @@
 #SESSION {RS Games} {game.rsgames.org} {3555} 
 #SUBSTITUTE       {^+MSG It is your turn.$}     {<599>It is your turn.<099>}   {1}
 #SUBSTITUTE       {^+MSG {.*}Blue{.*}}  {%1<049>Blue<099>%2}  {1}
-#SUBSTITUTE       {^+MSG {.*}Green{.*}}  {%1<029>Green<099>%2}  {1}
-#SUBSTITUTE       {^+MSG {.*}Red{.*}}  {%1<019>Red<099>%2}  {1}
-#SUBSTITUTE       {^+MSG {.*}Yellow{.*}}  {%1<039>Yellow<099>%2}  {1}
+#SUBSTITUTE       {^+MSG {.*}Green{.*}}  {%1<029>Green<099>%2}  {2}
+#SUBSTITUTE       {^+MSG {.*}Red{.*}}  {%1<019>Red<099>%2}  {3}
+#SUBSTITUTE       {^+MSG {.*}Yellow{.*}}  {%1<039>Yellow<099>%2}  {4}
 #SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {5}
 #SUBSTITUTE       {+MSG %1Alt+F%d %3}  {%1 ALT+%2 %3}  {9}
 #SUBSTITUTE       {+MSG %1Control+F%d %3}   {%1 ALT+SHIFT+%2 %3}  {9}
