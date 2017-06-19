@@ -313,6 +313,7 @@
 		#replace {output} {{Green draw two|Green light|Green reverse|Green skip|Green \d+|Green$}} {<029>&0<099>};
 		#replace {output} {{Red draw two|Red light|Red reverse|Red skip|Red \d+|Red$}} {<019>&0<099>};
 		#replace {output} {{Yellow draw two|Yellow reverse|Yellow skip|Yellow \d+|Yellow$}} {<039>&0<099>};
+		#replace {output} {Wild$} {<019>W<029>i<039>l<019>d<099>};
 		#replace {output} {Wild draw four} {<019>W<029>i<039>l<019>d<099> <029>d<039>r<019>a<029>w<099> <039>f<019>o<029>u<039>r<099>};
 		#echo {$output};
 		#if {"%1" == "CHECKLIST"}
