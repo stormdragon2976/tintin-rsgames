@@ -501,7 +501,7 @@
 #SUBSTITUTE       {Green}  {<029>Green<099>}  {1}
 #SUBSTITUTE       {I{t is|t's still} your turn.}          {<599>%0<099>}  {1}
 #SUBSTITUTE       {Red}  {<019>Red<099>}  {1}
-#SUBSTITUTE       {Yell{o|ow}}  {<039>Yellow<099>}  {1}
+#SUBSTITUTE       {Yell{ow|o}}  {<039>Yellow<099>}  {1}
 #SUBSTITUTE       {^+MSG You can't play that card. Would you like to discard it?$}                                            {You can't play ${menu[$i]}\. would you like to discard it?}                                   {8}
 #SUBSTITUTE       {+MSG %1Alt+F%d %3}  {%1 ALT+%2 %3}  {9}
 #SUBSTITUTE       {+MSG %1Control+F%d %3}   {%1 ALT+SHIFT+%2 %3}  {9}
