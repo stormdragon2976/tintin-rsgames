@@ -496,19 +496,21 @@
 #PATHDIR          {sw}  {ne}  {12}
 #PATHDIR          {u}  {d}  {16}
 #PATHDIR          {w}  {e}  {8}
-#SESSION {RS Games} {game.rsgames.org} {3555} 
-#SUBSTITUTE       {I{t is|t's still} your turn.}     {<599>%0<099>}   {1}
+#SESSION {RS Games} {game.rsgames.org} {3555}
 #SUBSTITUTE       {Blue}  {<049>Blue<099>}  {1}
 #SUBSTITUTE       {Green}  {<029>Green<099>}  {1}
+#SUBSTITUTE       {I{t is|t's still} your turn.}          {<599>%0<099>}  {1}
 #SUBSTITUTE       {Red}  {<019>Red<099>}  {1}
 #SUBSTITUTE       {Yell{o|ow}}  {<039>Yellow<099>}  {1}
-#SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {9}
+#SUBSTITUTE       {^+MSG You can't play that card. Would you like to discard it?$}                                            {You can't play ${menu[$i]}\. would you like to discard it?}                                   {8}
 #SUBSTITUTE       {+MSG %1Alt+F%d %3}  {%1 ALT+%2 %3}  {9}
 #SUBSTITUTE       {+MSG %1Control+F%d %3}   {%1 ALT+SHIFT+%2 %3}  {9}
-#SUBSTITUTE       {^+MSG You can't play that card. Would you like to discard it?$}                                            {You can't play ${menu[$i]}\. would you like to discard it?}                                   {8}
+#SUBSTITUTE       {Wild}  {<019>W<029>i<039>l<019>d<099>}      {9}
+#SUBSTITUTE       {Wild draw four}  {<019>W<029>i<039>l<019>d<099> <029>d<039>r<019>a<029>w<099> <039>f<019>o<029>u<039>r<099>}                                                                  {9}
+#SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {9}
 #SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {<099>}  {9}
 #VARIABLE         {debug}  {false}
-#VARIABLE         {game}  {{inputHistory}{{1}{#write rs.tin}{2}{#write rs.tin}}}
+#VARIABLE         {game}  {{inputHistory}{{1}{#write rs.tin}{2}{#write rs.tin}{3}{#write rs.tin}{4}{#write rs.tin}}}
 #VARIABLE         {i}  {}
 #VARIABLE         {lastSound}  {}
 #VARIABLE         {menu}  {}
