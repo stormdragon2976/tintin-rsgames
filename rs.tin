@@ -498,14 +498,14 @@
 #PATHDIR          {w}  {e}  {8}
 #SESSION {RS Games} {game.rsgames.org} {3555} 
 #SUBSTITUTE       {^+MSGI It is your turn.$}     {<599>It is your turn.<099>}   {1}
-#SUBSTITUTE       {^+MSG {.*}Blue{.*}}  {%1<049>Blue%2}  {1}
-#SUBSTITUTE       {^+MSG {.*}Green{.*}}  {%1<029>Green%2}  {1}
-#SUBSTITUTE       {^+MSG {.*}Red{.*}}  {%1<019>Red%2}  {1}
-#SUBSTITUTE       {^+MSG {.*}Yellow{.*}}  {%1<039>Yellow%2}  {1}
+#SUBSTITUTE       {Blue}  {<049>Blue<099>}  {1}
+#SUBSTITUTE       {Green}  {<029>Green<099>}  {1}
+#SUBSTITUTE       {Red}  {<019>Red<099>}  {1}
+#SUBSTITUTE       {Yell{o|ow}}  {<039>Yellow<099>}  {1}
 #SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {9}
-#SUBSTITUTE       {+MSG %1Alt+F%d %3}  {<099>%1 ALT+%2 %3}  {9}
-#SUBSTITUTE       {+MSG %1Control+F%d %3}   {<099>%1 ALT+SHIFT+%2 %3}  {9}
-#SUBSTITUTE       {^+MSG You can't play that card. Would you like to discard it?$}                                            {<099>You can't play ${menu[$i]}\. would you like to discard it?}                                   {8}
+#SUBSTITUTE       {+MSG %1Alt+F%d %3}  {%1 ALT+%2 %3}  {9}
+#SUBSTITUTE       {+MSG %1Control+F%d %3}   {%1 ALT+SHIFT+%2 %3}  {9}
+#SUBSTITUTE       {^+MSG You can't play that card. Would you like to discard it?$}                                            {You can't play ${menu[$i]}\. would you like to discard it?}                                   {8}
 #SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {<099>}  {9}
 #VARIABLE         {debug}  {false}
 #VARIABLE         {game}  {{inputHistory}{{1}{#write rs.tin}{2}{#write rs.tin}}}
