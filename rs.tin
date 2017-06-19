@@ -309,10 +309,10 @@
 		#variable {output} {$i: ${menu[$i]}};
 		#nop {Lots of formating output for playability, and add color for visual users.};
 		#replace {output} {playable%*.ogg~} {(playable) };
-		#replace {output} {{Blue draw two|Blue reverse|Blue skip|Blue \d+|Blue}{, | |\.}} {<049>&0<099>};
-		#replace {output} {{Green draw two|Green light|Green reverse|Green skip|Green \d+|Green}{, | |\.}} {<029>&0<099>};
-		#replace {output} {{Red draw two|Red light|Red reverse|Red skip|Red \d+|Red}{, | |\.}} {<019>&0<099>};
-		#replace {output} {{Yellow draw two|Yellow reverse|Yellow skip|Yellow \d+|Yellow}{, | |\.}} {<039>&0<099>};
+		#replace {output} {{Blue draw two|Blue reverse|Blue skip|Blue \d+|Blue}} {<049>&0<099>};
+		#replace {output} {{Green draw two|Green light|Green reverse|Green skip|Green \d+|Green}} {<029>&0<099>};
+		#replace {output} {{Red draw two|Red light|Red reverse|Red skip|Red \d+|Red}} {<019>&0<099>};
+		#replace {output} {{Yellow draw two|Yellow reverse|Yellow skip|Yellow \d+|Yellow}} {<039>&0<099>};
 		#replace {output} {Wild} {<019>W<029>i<039>l<019>d<099>};
 		#replace {output} {Wild draw four} {<019>W<029>i<039>l<019>d<099> <029>d<039>r<019>a<029>w<099> <039>f<019>o<029>u<039>r<099>};
 		#echo {$output};
@@ -497,11 +497,12 @@
 #PATHDIR          {u}  {d}  {16}
 #PATHDIR          {w}  {e}  {8}
 #SESSION {RS Games} {game.rsgames.org} {3555} 
-#SUBSTITUTE       {+MSG %1Alt+F%d %3}  {%1 ALT+%2 %3}  {1}
-#SUBSTITUTE       {+MSG %1Control+F%d %3}   {%1 ALT+SHIFT+%2 %3}  {1}
-#SUBSTITUTE       {^+MSG You can't play that card. Would you like to discard it?$}                                            {You can't play ${menu[$i]}\. would you like to discard it?}                                   {1}
+#substitute {^+MSG {.*}Blue{.*}} {&1<049>Blue<099>} {1}
+#SUBSTITUTE       {+MSG %1Alt+F%d %3}  {%1 ALT+%2 %3}  {9}
+#SUBSTITUTE       {+MSG %1Control+F%d %3}   {%1 ALT+SHIFT+%2 %3}  {9}
+#SUBSTITUTE       {^+MSG You can't play that card. Would you like to discard it?$}                                            {You can't play ${menu[$i]}\. would you like to discard it?}                                   {9}
 #SUBSTITUTE       {^+MSG It is your turn.$}                   {<599>It is your turn.<099>}  {1}
-#SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {}  {2}
+#SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {}  {9}
 #SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {5}
 #VARIABLE         {debug}  {false}
 #VARIABLE         {game}  {{inputHistory}{{1}{#write rs.tin}}}
