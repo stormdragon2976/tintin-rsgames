@@ -304,6 +304,10 @@
 	#list {menu} {add} {$text};
 	#variable {i} {1};
 	#list {menu} {size} {menuSize};
+	#if {$menuSize == 3 && "${game.name}" == "Uno" && "${auto.uno}" == "true"}
+	{
+		#send {say_uno}
+	};
 	#while {$i <= $menuSize}
 	{
 		#variable {output} {$i: ${menu[$i]}};
@@ -406,7 +410,7 @@
 }
 {9}
 
-#ALIAS {^{noauto|auto}{draw|reject|start}$}
+#ALIAS {^{noauto|auto}{draw|reject|start|uno}$}
 {
 	#class {settings} {open};
 	#if {"%1" == "auto"}
