@@ -225,6 +225,15 @@
 }
 {9}
 
+#ACTION {^+MSG It is your turn.$}
+{
+	#if {"${game.name}" == "1000 miles" && "${auto.draw}" == "true"}
+	{
+		#send {Draw card}
+	}
+}
+{9}
+
 #ACTION {^+MSG Please select an option.$}
 {
 	#list {menu} {clear}
@@ -496,7 +505,7 @@
 #PATHDIR          {sw}  {ne}  {12}
 #PATHDIR          {u}  {d}  {16}
 #PATHDIR          {w}  {e}  {8}
-#SESSION {RS Games} {game.rsgames.org} {3555}
+#SESSION {RS Games} {game.rsgames.org} {3555} 
 #SUBSTITUTE       {Blue}  {<049>Blue<099>}  {1}
 #SUBSTITUTE       {Green}  {<029>Green<099>}  {1}
 #SUBSTITUTE       {I{t is|t's still} your turn.}          {<599>%0<099>}  {1}
@@ -510,7 +519,7 @@
 #SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {9}
 #SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {<099>}  {9}
 #VARIABLE         {debug}  {false}
-#VARIABLE         {game}  {{inputHistory}{{1}{#write rs.tin}{2}{#write rs.tin}{3}{#write rs.tin}{4}{#write rs.tin}}}
+#VARIABLE         {game}  {{inputHistory}{{1}{#write rs.tin}{2}{#write rs.tin}{3}{#write rs.tin}{4}{#write rs.tin}{5}{#write rs.tin}}}
 #VARIABLE         {i}  {}
 #VARIABLE         {lastSound}  {}
 #VARIABLE         {menu}  {}
