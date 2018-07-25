@@ -286,7 +286,7 @@
 			#format {output} {%l} {%2.%3}
 		}
 	};
-	#script {if [ ! -f "$HOME/sounds/${game.name}/$output" ]; then sox -q "http://zanosoft.net/zgp/snd-download/${game.name}/$output" "$HOME/sounds/${game.name}/$output";fi};
+	#script {if [ ! -f "$HOME/sounds/${game.name}/$output" ]; then curl -s "http://zanosoft.net/zgp/snd-download/${game.name}/$output" -o "$HOME/sounds/${game.name}/$output";fi};
 	PLAY $output
 }
 {9}
