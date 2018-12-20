@@ -466,6 +466,11 @@
 #CONFIG           {VERBATIM CHAR}  {\}
 #CONFIG           {VERBOSE}  {OFF}
 #CONFIG           {WORDWRAP}  {ON}
+#EVENT {PROGRAM START}
+{
+	#SESSION {RS Games} {game.rsgames.org} {3555}
+}
+
 #EVENT {RECEIVED INPUT}
 {
 	#list {game.inputHistory} {add} {%0}
@@ -505,7 +510,6 @@
 #PATHDIR          {sw}  {ne}  {12}
 #PATHDIR          {u}  {d}  {16}
 #PATHDIR          {w}  {e}  {8}
-#SESSION {RS Games} {game.rsgames.org} {3555} 
 #SUBSTITUTE       {Blue}  {<049>Blue<099>}  {1}
 #SUBSTITUTE       {Green}  {<029>Green<099>}  {1}
 #SUBSTITUTE       {I{t is|t's still} your turn.}          {<599>%0<099>}  {1}
@@ -519,7 +523,7 @@
 #SUBSTITUTE       {^+CHAT %S|%2}  {%1: '%2'}  {9}
 #SUBSTITUTE       {^{\+|-}{ERR|GAMENAME|INPUT|MSG|MSGI} }                   {<099>}  {9}
 #VARIABLE         {debug}  {false}
-#VARIABLE         {game}  {{inputHistory}{{1}{#write rs.tin}{2}{#write rs.tin}{3}{#write rs.tin}{4}{#write rs.tin}{5}{#write rs.tin}}}
+#VARIABLE         {game}  {{inputHistory}{{1}{#write rs.tin}{2}{#write rs.tin}{3}{#write rs.tin}{4}{#write rs.tin}{5}{#write rs.tin}{6}{#write rs.tin}}}
 #VARIABLE         {i}  {}
 #VARIABLE         {lastSound}  {}
 #VARIABLE         {menu}  {}
